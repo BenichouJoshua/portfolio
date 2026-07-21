@@ -1,0 +1,610 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Joshua Benichou — Software Automation Engineer</title>
+<meta name="description" content="Automation engineer building reliable pipelines and safe, agentic AI. Selected work: a safe LLM tool-calling agent, and an end-to-end government-form automation.">
+<style>
+  :root {
+    --paper: #ECEEEC;
+    --raised: #F5F6F4;
+    --ink: #16191A;
+    --muted: #565D5A;
+    --faint: #7B827E;
+    --line: rgba(20, 25, 26, 0.14);
+    --line-soft: rgba(20, 25, 26, 0.08);
+    --accent: #0C5C55;
+    --accent-ink: #094641;
+    --signal: #B5532B;
+    --good: #1F7A52;
+    --shadow: 0 1px 0 rgba(20,25,26,.04), 0 8px 28px -18px rgba(20,25,26,.30);
+
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+
+    --measure: 66ch;
+    --wide: 1080px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #0E1211;
+      --raised: #151A19;
+      --ink: #E7EAE7;
+      --muted: #9AA29E;
+      --faint: #757D79;
+      --line: rgba(231, 234, 231, 0.16);
+      --line-soft: rgba(231, 234, 231, 0.08);
+      --accent: #3FB0A3;
+      --accent-ink: #6ED0C4;
+      --signal: #E08A5C;
+      --good: #4FC489;
+      --shadow: 0 1px 0 rgba(0,0,0,.3), 0 10px 34px -18px rgba(0,0,0,.7);
+    }
+  }
+  :root[data-theme="light"] {
+    --paper: #ECEEEC;
+    --raised: #F5F6F4;
+    --ink: #16191A;
+    --muted: #565D5A;
+    --faint: #7B827E;
+    --line: rgba(20, 25, 26, 0.14);
+    --line-soft: rgba(20, 25, 26, 0.08);
+    --accent: #0C5C55;
+    --accent-ink: #094641;
+    --signal: #B5532B;
+    --good: #1F7A52;
+    --shadow: 0 1px 0 rgba(20,25,26,.04), 0 8px 28px -18px rgba(20,25,26,.30);
+  }
+  :root[data-theme="dark"] {
+    --paper: #0E1211;
+    --raised: #151A19;
+    --ink: #E7EAE7;
+    --muted: #9AA29E;
+    --faint: #757D79;
+    --line: rgba(231, 234, 231, 0.16);
+    --line-soft: rgba(231, 234, 231, 0.08);
+    --accent: #3FB0A3;
+    --accent-ink: #6ED0C4;
+    --signal: #E08A5C;
+    --good: #4FC489;
+    --shadow: 0 1px 0 rgba(0,0,0,.3), 0 10px 34px -18px rgba(0,0,0,.7);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  .wrap {
+    width: 100%;
+    max-width: var(--wide);
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  /* ---------- shared type ---------- */
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0;
+  }
+  h1, h2, h3 { text-wrap: balance; font-weight: 640; letter-spacing: -0.021em; }
+
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+
+  /* ---------- masthead ---------- */
+  header.masthead {
+    border-bottom: 1px solid var(--line);
+    padding: 46px 0 54px;
+  }
+  .top-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 52px;
+  }
+  .top-line .brand {
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .top-line .status {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.03em;
+    color: var(--faint);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--good);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--good) 22%, transparent);
+  }
+  .masthead h1 {
+    font-size: clamp(2.5rem, 6vw, 4.3rem);
+    line-height: 1.02;
+    margin: 0 0 8px;
+  }
+  .masthead .role {
+    font-family: var(--mono);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: 13px;
+    color: var(--signal);
+    margin: 0 0 30px;
+  }
+  .lede {
+    font-size: clamp(1.15rem, 2.3vw, 1.5rem);
+    line-height: 1.5;
+    max-width: 32ch;
+    margin: 0;
+    color: var(--ink);
+    font-weight: 420;
+  }
+  .lede strong { font-weight: 640; color: var(--accent-ink); }
+  .contact-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 26px;
+    margin-top: 34px;
+    font-family: var(--mono);
+    font-size: 13px;
+  }
+  .contact-row span.k { color: var(--faint); }
+
+  /* ---------- section frame ---------- */
+  section { padding: 62px 0; border-bottom: 1px solid var(--line-soft); }
+  .section-head { margin-bottom: 34px; }
+  .section-head h2 {
+    font-size: clamp(1.05rem, 2vw, 1.3rem);
+    margin: 10px 0 0;
+    color: var(--muted);
+    font-weight: 540;
+    letter-spacing: -0.01em;
+  }
+
+  /* ---------- capabilities ---------- */
+  .caps {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--line-soft);
+    border: 1px solid var(--line-soft);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .cap {
+    background: var(--paper);
+    padding: 26px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+  .cap .n {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+  }
+  .cap h3 { font-size: 1.12rem; margin: 0; letter-spacing: -0.015em; }
+  .cap p { margin: 0; font-size: 14.5px; line-height: 1.55; color: var(--muted); }
+
+  /* ---------- case studies ---------- */
+  .case { padding-top: 8px; }
+  .case + .case { border-top: 1px solid var(--line-soft); margin-top: 62px; padding-top: 62px; }
+  .case-eyebrow {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 16px;
+  }
+  .case-eyebrow .tag {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .case-eyebrow .rule { flex: 1; height: 1px; background: var(--line); }
+  .case-eyebrow .idx {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--faint);
+  }
+  .case h2.case-title {
+    font-size: clamp(1.7rem, 3.6vw, 2.5rem);
+    line-height: 1.08;
+    margin: 0 0 20px;
+    max-width: 20ch;
+  }
+  .case-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px 56px;
+    align-items: start;
+  }
+  .block .lbl {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--faint);
+    margin: 0 0 10px;
+  }
+  .block p { margin: 0 0 14px; max-width: var(--measure); }
+  .block p:last-child { margin-bottom: 0; }
+
+  .hard {
+    border-left: 2px solid var(--signal);
+    padding: 4px 0 4px 22px;
+    margin-top: 4px;
+  }
+  .hard .lbl { color: var(--signal); }
+
+  .result {
+    background: var(--raised);
+    border: 1px solid var(--line-soft);
+    border-radius: 12px;
+    padding: 22px 24px;
+    box-shadow: var(--shadow);
+  }
+  .result .lbl { color: var(--accent); }
+
+  .stack {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-top: 26px;
+  }
+  .case-repo {
+    margin: 18px 0 0;
+    font-family: var(--mono);
+    font-size: 13px;
+  }
+  .chip {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.01em;
+    color: var(--muted);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 4px 11px;
+    background: var(--paper);
+  }
+
+  /* ---------- pipeline diagram ---------- */
+  .flow-shell {
+    margin-top: 30px;
+    border: 1px solid var(--line-soft);
+    border-radius: 12px;
+    background: var(--raised);
+    padding: 20px 20px 22px;
+    overflow-x: auto;
+  }
+  .flow-cap {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--faint);
+    margin: 0 0 16px;
+  }
+  .flow {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    min-width: max-content;
+  }
+  .node {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    justify-content: center;
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    padding: 11px 14px;
+    background: var(--paper);
+    min-width: 118px;
+  }
+  .node .nt {
+    font-size: 13.5px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+  .node .ns {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.02em;
+    color: var(--faint);
+    line-height: 1.3;
+  }
+  .node.det { border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); }
+  .node.det .ns { color: var(--accent); }
+  .node.llm {
+    border-color: color-mix(in srgb, var(--signal) 55%, var(--line));
+    background: color-mix(in srgb, var(--signal) 7%, var(--paper));
+  }
+  .node.llm .ns { color: var(--signal); }
+  .arrow {
+    align-self: center;
+    color: var(--faint);
+    font-family: var(--mono);
+    padding: 0 10px;
+    font-size: 14px;
+    user-select: none;
+  }
+  .branch {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+  }
+
+  /* ---------- philosophy strip ---------- */
+  .philo p {
+    font-size: clamp(1.25rem, 2.6vw, 1.7rem);
+    line-height: 1.4;
+    font-weight: 420;
+    max-width: 24ch;
+    margin: 0;
+  }
+  .philo strong { font-weight: 640; color: var(--accent-ink); }
+  .philo .signal { color: var(--signal); font-weight: 600; }
+
+  /* ---------- footer ---------- */
+  footer {
+    padding: 56px 0 70px;
+  }
+  footer .cta {
+    display: flex; flex-wrap: wrap; align-items: baseline;
+    justify-content: space-between; gap: 20px;
+  }
+  footer h2 { font-size: clamp(1.5rem, 3vw, 2rem); margin: 0; }
+  .foot-links { display: flex; gap: 10px 24px; flex-wrap: wrap; font-family: var(--mono); font-size: 13.5px; }
+  .foot-meta {
+    margin-top: 42px; padding-top: 20px;
+    border-top: 1px solid var(--line-soft);
+    font-family: var(--mono); font-size: 11.5px; color: var(--faint);
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  }
+
+  /* ---------- reveal ---------- */
+  .reveal { opacity: 0; transform: translateY(14px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    * { scroll-behavior: auto !important; }
+  }
+
+  @media (max-width: 720px) {
+    body { font-size: 16px; }
+    .wrap { padding: 0 20px; }
+    .caps { grid-template-columns: 1fr; }
+    .case-grid { grid-template-columns: 1fr; gap: 28px; }
+    .case h2.case-title { max-width: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="top-line">
+      <span class="brand">Joshua&nbsp;Benichou</span>
+      <span class="status"><span class="dot" aria-hidden="true"></span>Open to work · Automation &amp; AI roles</span>
+    </div>
+    <p class="role">Software Automation Engineer</p>
+    <h1>I build reliable automation — and safe AI agents on top of it.</h1>
+    <p class="lede">I turn manual, scattered business processes into <strong>automated systems that hold up</strong> — and where AI helps, an LLM orchestrates the work while the logic that matters stays deterministic and tested.</p>
+    <div class="contact-row">
+      <span><span class="k">email</span> &nbsp;<a href="mailto:benichoujoshua27@gmail.com">benichoujoshua27@gmail.com</a></span>
+      <span><span class="k">github</span> &nbsp;<a href="https://github.com/BenichouJoshua" target="_blank" rel="noopener">BenichouJoshua</a></span>
+      <span><span class="k">linkedin</span> &nbsp;<a href="https://www.linkedin.com/in/joshua-benichou-01b67a264/" target="_blank" rel="noopener">in/joshua-benichou</a></span>
+    </div>
+  </header>
+
+  <section class="reveal">
+    <div class="section-head">
+      <p class="eyebrow">What I do</p>
+      <h2>Four things I bring to an automation or AI team.</h2>
+    </div>
+    <div class="caps">
+      <div class="cap">
+        <span class="n">01 / orchestration</span>
+        <h3>Agentic AI, kept on a leash</h3>
+        <p>An LLM orchestrates a registry of allowlisted, tested tools — it never touches the database or the business rules directly. Reasoning from the model, decisions from code.</p>
+      </div>
+      <div class="cap">
+        <span class="n">02 / automation</span>
+        <h3>End-to-end workflows</h3>
+        <p>Webhook-driven pipelines that carry data from a form through databases, document generation and email with no manual step in the middle. Built with n8n and Python.</p>
+      </div>
+      <div class="cap">
+        <span class="n">03 / integration</span>
+        <h3>Stitching real systems together</h3>
+        <p>CRMs, databases, form builders, PDF engines, mail — I make systems that were never meant to talk to each other into one dependable flow.</p>
+      </div>
+      <div class="cap">
+        <span class="n">04 / reliability</span>
+        <h3>Built to last, not to demo</h3>
+        <p>Regression suites, idempotent writes, deterministic fallbacks when the model is down. I care about the code that still works after the demo is over.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-head">
+      <p class="eyebrow">Selected work</p>
+      <h2>Two projects, one skill seen from two sides.</h2>
+    </div>
+
+    <!-- CASE 1 -->
+    <article class="case">
+      <div class="case-eyebrow">
+        <span class="tag">Agentic AI · Operations</span>
+        <span class="rule" aria-hidden="true"></span>
+        <span class="idx">case 01</span>
+      </div>
+      <h2 class="case-title">A safe AI agent for operational risk</h2>
+
+      <div class="case-grid">
+        <div class="block">
+          <p class="lbl">The problem</p>
+          <p>A manager tracking delivery risk has to open five systems — inventory, purchase orders, suppliers, alert history and the CRM — just to answer two questions: <em>which deliveries are at risk, and does this one actually matter?</em></p>
+          <p class="lbl" style="margin-top:22px;">What I built</p>
+          <p>A FastAPI service where an LLM orchestrates a registry of deterministic business tools. It analyses operational data, cross-references the CRM to weigh technical risk against account status — strategic, at-risk or standard — and answers in the manager's own language, with its sources attached.</p>
+        </div>
+        <div class="block">
+          <div class="hard">
+            <p class="lbl">The hard part</p>
+            <p>Making the AI trustworthy. Every business rule — risk scoring, escalation — is deterministic Python, unit-tested, and never delegated to the model. The LLM may only call allowlisted tools; it never sees the database and never writes SQL. If the model is disabled or fails — bad key, quota, network — the agent degrades to deterministic routing instead of crashing, and reports whether AI was actually used.</p>
+          </div>
+          <div class="result" style="margin-top:24px;">
+            <p class="lbl">The result</p>
+            <p>Answers <em>“why is D-205 high risk?”</em> with its evidence, surfaces every strategic account that needs escalation in one pass, and refuses out-of-scope requests by design.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-shell">
+        <p class="flow-cap">Request path — control plane in teal, model in clay</p>
+        <div class="flow">
+          <div class="node"><span class="nt">Manager</span><span class="ns">question</span></div>
+          <span class="arrow">→</span>
+          <div class="node det"><span class="nt">FastAPI</span><span class="ns">// api</span></div>
+          <span class="arrow">→</span>
+          <div class="branch">
+            <div class="node det"><span class="nt">/chat</span><span class="ns">// deterministic</span></div>
+            <div class="node llm"><span class="nt">/agent-chat</span><span class="ns">// LLM tool-calling</span></div>
+          </div>
+          <span class="arrow">→</span>
+          <div class="node det"><span class="nt">Tool registry</span><span class="ns">// allowlist</span></div>
+          <span class="arrow">→</span>
+          <div class="node det"><span class="nt">Business tools</span><span class="ns">// tested rules</span></div>
+          <span class="arrow">→</span>
+          <div class="node"><span class="nt">SQLite</span><span class="ns">mocked systems</span></div>
+        </div>
+      </div>
+
+      <div class="stack">
+        <span class="chip">Python</span><span class="chip">FastAPI</span><span class="chip">SQLite</span><span class="chip">LLM tool-calling</span><span class="chip">React</span><span class="chip">pytest</span>
+      </div>
+      <p class="case-repo"><a href="https://github.com/BenichouJoshua/opsinsight-agent" target="_blank" rel="noopener">View repository on GitHub →</a></p>
+    </article>
+
+    <!-- CASE 2 -->
+    <article class="case">
+      <div class="case-eyebrow">
+        <span class="tag">Document automation · End-to-end</span>
+        <span class="rule" aria-hidden="true"></span>
+        <span class="idx">case 02</span>
+      </div>
+      <h2 class="case-title">End-to-end automation of a government immigration form</h2>
+
+      <div class="case-grid">
+        <div class="block">
+          <p class="lbl">The problem</p>
+          <p>An immigration firm filled Canada's IMM5707 family-information form by hand — five to ten minutes per file, repetitive and error-prone — for every client.</p>
+          <p class="lbl" style="margin-top:22px;">What I built</p>
+          <p>An end-to-end pipeline that turns a client's submission into a finished, emailed PDF with no manual step. A form fires a webhook; Python normalizes the data and writes it into the database — idempotent, deduplicated; a FastAPI + Java/PDFBox worker generates the official form; the result is emailed to the chosen recipient.</p>
+        </div>
+        <div class="block">
+          <div class="hard">
+            <p class="lbl">The hard part</p>
+            <p>The IMM5707 is a dynamic XFA PDF that fights back. Sections must appear or hide by marital status, but Adobe silently discards any injected state whose checksum doesn't match the data. I reverse-engineered that undocumented validation through controlled A/B experiments, then drove visibility by byte-exact edits to the form template and correctly stripped the usage-rights signature so Adobe wouldn't freeze the form. The behaviour is locked by a two-layer regression suite across seven marital-status cases.</p>
+          </div>
+          <div class="result" style="margin-top:24px;">
+            <p class="lbl">The result</p>
+            <p>Triggers generation of a correct, still-editable IMM5707 for any family composition, emailed automatically — the manual fill is gone.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-shell">
+        <p class="flow-cap">Pipeline — submission to delivered PDF, no human in the loop</p>
+        <div class="flow">
+          <div class="node"><span class="nt">Tally form</span><span class="ns">client intake</span></div>
+          <span class="arrow">→</span>
+          <div class="node det"><span class="nt">n8n webhook</span><span class="ns">// trigger</span></div>
+          <span class="arrow">→</span>
+          <div class="node det"><span class="nt">Normalize</span><span class="ns">// Python</span></div>
+          <span class="arrow">→</span>
+          <div class="node det"><span class="nt">NocoBase</span><span class="ns">// idempotent</span></div>
+          <span class="arrow">→</span>
+          <div class="node det"><span class="nt">PDF worker</span><span class="ns">// FastAPI + PDFBox</span></div>
+          <span class="arrow">→</span>
+          <div class="node"><span class="nt">Email</span><span class="ns">delivered</span></div>
+        </div>
+      </div>
+
+      <div class="stack">
+        <span class="chip">Python</span><span class="chip">FastAPI</span><span class="chip">Java / PDFBox</span><span class="chip">n8n</span><span class="chip">NocoBase</span><span class="chip">Postgres</span><span class="chip">Docker</span><span class="chip">Caddy</span>
+      </div>
+      <p class="case-repo"><a href="https://github.com/BenichouJoshua/ASA-Automation" target="_blank" rel="noopener">View repository on GitHub →</a></p>
+    </article>
+  </section>
+
+  <section class="reveal philo">
+    <div class="section-head">
+      <p class="eyebrow">How I think about AI</p>
+    </div>
+    <p>Deterministic business logic belongs in <strong>testable code</strong>. The model's job is to <span class="signal">orchestrate and communicate</span> — never to be the source of truth.</p>
+  </section>
+
+  <footer class="reveal">
+    <div class="cta">
+      <h2>Let's build something that lasts.</h2>
+      <div class="foot-links">
+        <a href="mailto:benichoujoshua27@gmail.com">email →</a>
+        <a href="https://github.com/BenichouJoshua" target="_blank" rel="noopener">github →</a>
+        <a href="https://www.linkedin.com/in/joshua-benichou-01b67a264/" target="_blank" rel="noopener">linkedin →</a>
+      </div>
+    </div>
+    <div class="foot-meta">
+      <span>Joshua Benichou — Software Automation Engineer</span>
+      <span>Python · FastAPI · LLM agents · n8n · Docker</span>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  (function () {
+    var els = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(function (e) { e.classList.add('in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    els.forEach(function (e) { io.observe(e); });
+  })();
+</script>
+</body>
+</html>
