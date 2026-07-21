@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1200px; height: 630px; overflow: hidden; }
+  body {
+    background: #0E1211;
+    color: #E7EAE7;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    padding: 68px 76px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+  }
+  .accent-bar {
+    position: absolute; top: 0; left: 0; height: 8px; width: 100%;
+    background: linear-gradient(90deg, #3FB0A3 0%, #3FB0A3 62%, #E08A5C 62%, #E08A5C 100%);
+  }
+  .top { display: flex; justify-content: space-between; align-items: baseline; }
+  .mono { font-family: "SF Mono", ui-monospace, Menlo, Consolas, monospace; }
+  .kicker { font-size: 21px; letter-spacing: 0.18em; text-transform: uppercase; color: #3FB0A3; }
+  .url { font-size: 20px; color: #757D79; letter-spacing: 0.02em; }
+
+  .mid { }
+  h1 {
+    font-size: 92px;
+    line-height: 0.98;
+    letter-spacing: -0.03em;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  .role {
+    font-size: 27px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #E08A5C;
+    font-weight: 600;
+  }
+  .tagline {
+    font-size: 34px;
+    line-height: 1.32;
+    color: #B7BEBA;
+    font-weight: 400;
+    max-width: 900px;
+    margin-top: 30px;
+  }
+  .tagline b { color: #E7EAE7; font-weight: 600; }
+
+  .chips { display: flex; gap: 14px; flex-wrap: wrap; }
+  .chip {
+    font-family: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+    font-size: 21px;
+    color: #9AA29E;
+    border: 1px solid rgba(231,234,231,0.20);
+    border-radius: 999px;
+    padding: 9px 22px;
+  }
+  .chip.hl { color: #0E1211; background: #3FB0A3; border-color: #3FB0A3; font-weight: 600; }
+</style>
+</head>
+<body>
+  <div class="accent-bar"></div>
+
+  <div class="top">
+    <span class="mono kicker">Portfolio</span>
+    <span class="mono url">benichoujoshua.github.io</span>
+  </div>
+
+  <div class="mid">
+    <h1>Joshua Benichou</h1>
+    <div class="role mono">Software Automation Engineer</div>
+    <div class="tagline">Reliable automation — and <b>safe AI agents</b> on top of it. An LLM orchestrates the work; the logic that matters stays <b>deterministic and tested</b>.</div>
+  </div>
+
+  <div class="chips">
+    <span class="chip hl">LLM agents</span>
+    <span class="chip">Python</span>
+    <span class="chip">FastAPI</span>
+    <span class="chip">n8n</span>
+    <span class="chip">Docker</span>
+    <span class="chip">CI/CD</span>
+  </div>
+</body>
+</html>
